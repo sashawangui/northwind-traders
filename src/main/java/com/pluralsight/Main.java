@@ -16,15 +16,36 @@ public class Main {
         dataSource.setPassword("yearup26");
 
         String sql =
-                "SELECT ProductName FROM products";
+                """
+                SELECT ProductID,
+                       ProductName,
+                       UnitPrice,
+                       UnitsInStock
+                FROM Products
+                """;
 
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement statement =
                     connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                String productName = resultSet.getString("ProductName");
-                System.out.println(productName);
+                int id =
+                        resultSet.getInt("ProductID");
+
+                String name =
+                        resultSet.getString("ProductName");
+
+                double price =
+                        resultSet.getDouble("UnitPrice");
+
+                int stock =
+                        resultSet.getInt("UnitsInStock");
+
+                System.out.println("Product ID: " + id);
+                System.out.println("Name: " + name);
+                System.out.println("Price: " + price);
+                System.out.println("Stock: " + stock);
+                System.out.println("----------------");
             }
         }
         catch(SQLException e)
